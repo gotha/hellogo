@@ -5,6 +5,7 @@ service:
 replicaCount: 1
 image:
   repository: coco/upp-hellogo
+  tag: "latest"
   version: "" # should be set explicitly at installation
   pullPolicy: IfNotPresent
 resources:

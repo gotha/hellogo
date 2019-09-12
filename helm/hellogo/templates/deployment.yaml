@@ -1,9 +1,9 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: {{ template "hellogo.fullname" . }}
+  name: {{ .Values.service.name }}
   labels:
-    app: {{ template "hellogo.name" . }}
+    app: {{ .Values.service.name }}
     chart: {{ template "hellogo.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
