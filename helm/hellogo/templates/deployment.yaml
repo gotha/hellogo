@@ -1,9 +1,9 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: {{ template "hellogo.fullname" . }}
+  name: {{ .Values.service.name }}
   labels:
-    app: {{ template "hellogo.name" . }}
+    app: {{ .Values.service.name }}
     chart: {{ template "hellogo.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
@@ -25,16 +25,16 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: 80
+              containerPort: 9999
               protocol: TCP
           livenessProbe:
             httpGet:
               path: /
-              port: http
+              port: 9999
           readinessProbe:
             httpGet:
               path: /
-              port: http
+              port: 9999
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}
