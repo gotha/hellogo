@@ -29,7 +29,7 @@ phases:
       - echo Build completed on `date`
       - echo Creating helm package
       - helm init -c
-      - helm package --version  $IMAGE_TAG-$IMAGE_REPO_NAME helm/$IMAGE_REPO_NAME
+      - helm package --version  0.0.1-$IMAGE_REPO_NAME helm/$IMAGE_REPO_NAME
       - ls -las
       - echo Pushing the Docker image...
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
