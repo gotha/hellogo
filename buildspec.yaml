@@ -9,6 +9,8 @@ phases:
       - echo "Installing kubectl"
       - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
       - chmod +x kubectl
+      - pwd
+      - ls -las
       - mv ./kubectl /usr/local/bin/kubectl
         echo "Installing helm"
       - wget https://storage.googleapis.com/kubernetes-helm/helm-v2.14.0-linux-amd64.tar.gz -O helm.tar.gz; tar -xzf helm.tar.gz
