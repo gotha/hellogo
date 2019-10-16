@@ -28,7 +28,7 @@ phases:
     commands:
       - echo Build completed on `date`
       - echo Creating helm package
-      - helm package -c
+      - helm init -c
       - helm package --version  $IMAGE_TAG-$IMAGE_REPO_NAME helm/$IMAGE_REPO_NAME
       - ls -las
       - echo Pushing the Docker image...
