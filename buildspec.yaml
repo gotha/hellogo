@@ -34,10 +34,14 @@ phases:
       - ls -las
       - mkdir /target
       - mv ./$IMAGE_REPO_NAME-0.0.1.tgz /target/
+      - echo "0.0.1" > /target/VERSION
+      - echo $IMAGE_REPO_NAME > /target/REPO_NAME
       - echo Pushing the Docker image...
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
 
 artifacts:
   files:
     - /target/$IMAGE_REPO_NAME-0.0.1.tgz
+    - /target/VERSION
+    - /target/REPO_NAME
   discard-paths: yes
