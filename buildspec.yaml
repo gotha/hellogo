@@ -6,7 +6,15 @@ phases:
       docker: 18
   pre_build:
     commands:
-      - echo Logging in to Amazon ECR...
+      - echo "Installing kubectl"
+      - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+      - chmod +x kubectl
+      - mv ./kubectl /usr/local/bin/kubectl
+        echo "Installing helm"
+      - wget https://storage.googleapis.com/kubernetes-helm/helm-v2.14.0-linux-amd64.tar.gz -O helm.tar.gz; tar -xzf helm.tar.gz
+      - chmod +x ./linux-amd64/helm
+      - mv ./linux-amd64/helm /usr/local/bin/helm
+      - echo "Logging in to Amazon ECR..."
       - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
   build:
     commands:
@@ -17,5 +25,9 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
+      - echo Creating helm package
+      - helm package -c
+      - helm package --version  $IMAGE_TAG-$IMAGE_REPO_NAME helm/$IMAGE_REPO_NAME
+      - ls -las
       - echo Pushing the Docker image...
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
