@@ -26,18 +26,19 @@ phases:
       - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
   post_build:
     commands:
+      - echo Pushing the Docker image...
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
       - echo Build completed on `date`
       - echo Creating helm package
       - helm init -c
-      - helm package --version  0.0.1 helm/$IMAGE_REPO_NAME
-      - pwd
-      - ls -las
+      - helm repo add upp http://k8s-pipeline-lib-helm-repo-test2.s3-website-eu-west-1.amazonaws.com
+      - helm package --version 0.0.1 helm/$IMAGE_REPO_NAME
+      - helm repo index --merge $HELM_HOME/.helm/repository/cache/upp-index.yaml --url http://k8s-pipeline-lib-helm-repo-test2.s3-website-eu-west-1.amazonaws.com .
+      - aws cp s3 ./$IMAGE_REPO_NAME-0.0.1.tgz s3://k8s-pipeline-lib-helm-repo-test2/
       - mkdir /target
       - mv ./$IMAGE_REPO_NAME-0.0.1.tgz /target/
       - echo "0.0.1" > /target/VERSION
       - echo $IMAGE_REPO_NAME > /target/REPO_NAME
-      - echo Pushing the Docker image...
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
 
 artifacts:
   files:
