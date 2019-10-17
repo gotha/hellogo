@@ -33,8 +33,9 @@ phases:
       - helm init -c
       - helm repo add upp http://k8s-pipeline-lib-helm-repo-test2.s3-website-eu-west-1.amazonaws.com
       - helm package --version 0.0.1 helm/$IMAGE_REPO_NAME
-      - helm repo index --merge $HELM_HOME/.helm/repository/cache/upp-index.yaml --url http://k8s-pipeline-lib-helm-repo-test2.s3-website-eu-west-1.amazonaws.com .
-      - cat $HELM_HOME/.helm/repository/cache/upp-index.yaml
+      - ls -las /root/.helm/repository/cache
+      - helm repo index --merge /root/.helm/repository/cache/upp-index.yaml --url http://k8s-pipeline-lib-helm-repo-test2.s3-website-eu-west-1.amazonaws.com .
+      - cat /root/.helm/repository/cache/upp-index.yaml
       - aws s3 cp ./$IMAGE_REPO_NAME-0.0.1.tgz s3://k8s-pipeline-lib-helm-repo-test2/
       - mkdir /target
       - mv ./$IMAGE_REPO_NAME-0.0.1.tgz /target/
