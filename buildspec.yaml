@@ -37,6 +37,7 @@ phases:
       - helm repo index --merge /root/.helm/repository/cache/upp-index.yaml --url http://k8s-pipeline-lib-helm-repo-test2.s3-website-eu-west-1.amazonaws.com .
       - cat /root/.helm/repository/cache/upp-index.yaml
       - aws s3 cp ./$IMAGE_REPO_NAME-0.0.1.tgz s3://k8s-pipeline-lib-helm-repo-test2/
+      - aws s3 cp index.yaml s3://k8s-pipeline-lib-helm-repo-test2/
       - mkdir /target
       - mv ./$IMAGE_REPO_NAME-0.0.1.tgz /target/
       - echo "0.0.1" > /target/VERSION
